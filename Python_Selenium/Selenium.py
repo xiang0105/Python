@@ -8,11 +8,13 @@ from time import sleep
 import json
 
 def open_browser() -> webdriver:
-    chrome_driver_path = r"C:\Users\56433\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.10\chromedriver.exe"
+    chrome_driver_path = r"C:\your_path\chromedriver.exe"
+    # 你下載的chromedriver.exe位置
 
     options = Options()
     options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument(r"user-data-dir=C:\Users\56433\AppData\Local\Google\Chrome\User Data")
+    options.add_argument(r"user-data-dir=C:\your_path\User Data")
+    # 你的google使用者內容
     options.add_argument("profile-directory=Profile 1")
 
     service = Service(chrome_driver_path)
