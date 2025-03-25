@@ -11,7 +11,8 @@ import os
 
 def open_browser(base_download_dir: str) -> webdriver:
     """啟動 Selenium 瀏覽器，並設定下載路徑"""
-    chrome_driver_path = r"C:\Users\56433\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.10\chromedriver.exe"
+    chrome_driver_path = r"C:\your_path\chromedriver.exe"
+    # 你下載的chromedriver.exe位置
     
     options = Options()
     options.add_argument("--headless")
@@ -72,8 +73,8 @@ def get_data_gz(driver: webdriver , date_download_dir: str):
                 sleep(1)
 
 if __name__ == "__main__":
-    base_download_dir = r"C:\Users\56433\OneDrive\桌面\NTUT Data\!公路局路段即時路況動態資訊(v2.0)\GZ"
-    os.makedirs(base_download_dir, exist_ok=True)
+    base_download_dir = r"C:\Users\your_path\Downloads"
+    # 下載的路徑
 
     driver = open_browser(base_download_dir)
     sleep(5)
