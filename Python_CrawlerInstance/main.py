@@ -29,8 +29,9 @@ def open_browser(base_download_dir: str) -> webdriver:
 
 def get_data_url(driver: webdriver, base_download_dir: str):
     """取得指定日期範圍的下載連結，並下載資料"""
-    today = datetime.today()
-    date_range = [(today - timedelta(days=i)).strftime("%Y%m%d") for i in range(30)]
+    # today = datetime.today()
+    target_date = datetime.strptime("20250324", "%Y%m%d")
+    date_range = [(target_date - timedelta(days=i)).strftime("%Y%m%d") for i in range(30)]
     
     for data in date_range:
         """為特定日期下載 XML.GZ 檔案"""
@@ -45,10 +46,10 @@ def get_data_url(driver: webdriver, base_download_dir: str):
         link.click()
 
         sleep(2)
-        get_data_gz(driver)
+        get_data_gz(driver , date_download_dir)
         driver.quit()
 
-def get_data_gz(driver: webdriver):
+def get_data_gz(driver: webdriver , date_download_dir: str):
     """下載符合條件的 .xml.gz 檔案"""
     wait = WebDriverWait(driver, 60)  # 增加等待時間
     links = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//td[@class='indexcolname']/a[contains(@href, '.xml.gz')]")))
@@ -58,6 +59,14 @@ def get_data_gz(driver: webdriver):
         if "LiveTraffic_" in href and ".xml.gz" in href:
             file_number = int(href.split("LiveTraffic_")[1].split(".xml.gz")[0])
             if 1 <= file_number <= 2358:
+                filename = f"LiveTraffic_{file_number}.xml.gz"
+                filepath = os.path.join(date_download_dir, filename)
+
+                # 檢查檔案是否已存在
+                if os.path.exists(filepath):
+                    print(f"檔案已存在，跳過下載: {filename}")
+                    continue
+                
                 print(f"下載檔案: {href}")
                 link.click()
                 sleep(1)
