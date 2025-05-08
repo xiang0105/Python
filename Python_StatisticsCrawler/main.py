@@ -6,6 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import csv
 from time import sleep
+from datetime import datetime
+from datetime import timezone
 
 def open_browser() -> webdriver:
     # ChromeDriver 的路徑
@@ -69,8 +71,12 @@ if __name__ == "__main__":
     for _ in range(5):  # 滾動次數
         articles = driver.find_elements(By.XPATH, "//article")
         for article in articles:
+
+            if "Ad" in article.text:
+                continue
             
             lines = article.text.split("\n")
+
             # 等待 @name 出現
             name = WebDriverWait(article, 10).until(
                 EC.presence_of_element_located((By.XPATH, ".//span[contains(text(), '@')]"))
@@ -92,17 +98,59 @@ if __name__ == "__main__":
             except Exception as e:
                 time_posted = "No time found"
 
-            message = lines[-4]
-            likes = lines[-2]
-            views = lines[-1]
+            # 計算經過的時間（小時）
+            if time_posted:
+                try:
+                    # 將發布時間轉換為 datetime 物件
+                    post_time = datetime.fromisoformat(time_posted.replace("Z", "+00:00"))  # ISO 格式處理
+                    now = datetime.now(timezone.utc)
+                    time_diff = now - post_time  # 計算時間差
+                    hours_since_posted = int(time_diff.total_seconds() / 3600)  # 轉換為小時
+                except Exception as e:
+                    hours_since_posted = "Error calculating time"
+            else:
+                hours_since_posted = "No time found"
+            
+            # 格式化時間，只保留年月日
+            if time_posted != "No time found":
+                post_time = datetime.fromisoformat(time_posted.replace("Z", "+00:00"))  # ISO 格式處理
+                time_posted = post_time.strftime("%Y-%m-%d-%H")  # 格式化為 "YYYY-MM-DD"
+
+            if "K" in lines[-4]:
+                message = float(lines[-4][:-1]) * 1000
+            elif "M" in lines[-4]:
+                message = float(lines[-4][:-1]) * 1000000
+            elif "B" in lines[-4]:
+                message = float(lines[-4][:-1]) * 1000000000
+            else:
+                message = lines[-4]
+
+            if "K" in lines[-2]:
+                likes = float(lines[-2][:-1]) * 1000
+            elif "M" in lines[-2]:
+                likes = float(lines[-2][:-1]) * 1000000
+            elif "B" in lines[-2]:
+                likes = float(lines[-2][:-1]) * 1000000000
+            else:
+                likes = lines[-2]
+
+            if "K" in lines[-1]:   
+                views = float(lines[-1][:-1]) * 1000
+            elif "M" in lines[-1]:
+                views = float(lines[-1][:-1]) * 1000000
+            elif "B" in lines[-1]:  
+                views = float(lines[-1][:-1]) * 1000000000
+            else:
+                views = lines[-1]
 
             data = {
-                "Name": name,
-                "Content": content,
-                "Time": time_posted,
-                "Number of Message": message,
-                "Views": views,
-                "Likes": likes
+                "Name": name if isinstance(name, str) else None,
+                "Content": content if isinstance(content, str) else None,
+                "Time": time_posted if isinstance(time_posted, str) else None,
+                "Hours Since Posted": hours_since_posted if isinstance(hours_since_posted, int) else None,
+                "Number of Message": message if isinstance(message, float) else None,
+                "Likes": likes if isinstance(likes, float) else None,
+                "Views": views if isinstance(views, float) else None,
             }
 
             data_list.append(data)
