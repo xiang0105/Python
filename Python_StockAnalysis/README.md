@@ -1,46 +1,88 @@
-# ETF 比較簡介與研究方向
+# Python Stock Analysis  
 
-## SPDR S&P 500 ETF (SPY)
+一個以 Python 製作的股票分析工具專案，可進行資料抓取、回測、分析與視覺化。
 
-- **目標**：追蹤標普 500 指數，代表美國 500 家大型企業的表現。
-- **特點**：
-  - 高流動性，交易量極大。
-  - 長期穩健增長，適合研究美國股市整體走勢。
-  - 行業分布較均衡，涵蓋科技、金融、醫療等多領域。
+## 專案結構
 
-## Invesco QQQ Trust (QQQ)
+Python_StockAnalysis/
+│
+├── csv/ # 原始資料與處理後的 CSV
+│ ├── 2330.TW.csv
+│ ├── SPY.csv
+│ ├── QQQ_data.csv
+│ ├── weighted_portfolio.csv
+│ └── year_month_return_crosstab.csv
+│
+├── python_code/ # 核心 Python 程式
+│ ├── Analyze_Stocks.py # 股票表現分析
+│ ├── Compare_Stocks.py # 多檔股票比較
+│ ├── Decentralized_Stocks.py # 分散式投資組合回測
+│ ├── Draw_Charts.py # 各類圖表繪製
+│ ├── Grab_Stocks.py # 股票資料爬取/下載
+│ ├── MonthlyReturnSummary.py # 月報酬統計
+│ ├── YearlyReturnBarChart.py # 年報酬柱狀圖
+│ └── init.py
+│
+└── main.py # 主程式（統整並呼叫各模組）
 
-- **目標**：追蹤納斯達克 100 指數，涵蓋非金融業的大型科技股。
-- **特點**：
-  - 高度集中於科技股，如 Apple、Microsoft、NVIDIA。
-  - 高波動性，成長潛力大，適合研究科技產業的走勢。
-  - 在牛市中表現出色，但熊市中波動較大。
+## 功能特色
 
-## 研究方向
+### 股票資料抓取 (`Grab_Stocks.py`)
 
-1. **回報率**：
-   - 分析 SPY 與 QQQ 在不同時間段（1年、5年、10年）的回報率差異。
+- 從指定來源抓取股票價格  
+- 存成原始 CSV  
+- 支援多檔股票批次抓取  
 
-2. **波動性**：
-   - 比較兩者的標準差或 Beta 值，了解風險水平。
+### 股票基本分析 (`Analyze_Stocks.py`)
 
-3. **行業權重**：
-   - SPY 的行業分布較均衡，而 QQQ 偏重科技與創新企業。
+- 計算報酬率、波動度  
+- 累積報酬  
+- 移動平均、趨勢分析  
 
-4. **費用率**：
-   - SPY 費用率為 0.09%，QQQ 為 0.20%，比較其對長期投資的影響。
+### 股票比較 (`Compare_Stocks.py`)
 
-5. **總資產規模**：
-   - 分析市場對它們的需求和受歡迎程度。
+- 支援多檔股票績效比較  
+- 可繪製不同股票的回測曲線  
 
-## 工具建議
+### 分散式投資分析 (`Decentralized_Stocks.py`)
 
-- **Python 套件**：
-  - `yfinance`：獲取歷史價格數據。
-  - `pandas`：數據處理與分析。
-  - `matplotlib/seaborn`：視覺化分析。
+- 多資產組合回測  
+- 加權投資組合績效  
+- 資產配置檢視  
 
-- **數據視覺化方向**：
-  - 兩檔 ETF 的價格走勢對比。
-  - 不同時間段的回報率與波動性圖表。
-  - 行業分布的餅圖或條形圖。
+### 圖表繪製 (`Draw_Charts.py`)
+
+- 累積報酬曲線  
+- 月報酬 / 年報酬柱狀圖  
+- 股票走勢圖  
+
+### 月報酬與年報酬分析
+
+- `MonthlyReturnSummary.py`：計算每月回報  
+- `YearlyReturnBarChart.py`：年報酬（Bar Chart）  
+
+---
+
+##　主程式 `main.py`
+
+`main.py` 是專案的執行入口，可用來：
+
+- 選擇分析哪些股票  
+- 執行回測  
+- 呼叫圖表繪製  
+- 產生輸出報表  
+
+## 執行方式
+
+```bash
+python main.py
+```
+
+## 安裝需求
+
+```　bash
+pandas
+numpy
+matplotlib
+yfinance
+```
