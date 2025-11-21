@@ -4,6 +4,7 @@
 
 ## 專案結構
 
+```
 Python_StockAnalysis/
 │
 ├── csv/ # 原始資料與處理後的 CSV
@@ -24,6 +25,7 @@ Python_StockAnalysis/
 │ └── init.py
 │
 └── main.py # 主程式（統整並呼叫各模組）
+```
 
 ## 功能特色
 
