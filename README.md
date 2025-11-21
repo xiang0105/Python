@@ -79,9 +79,24 @@ import pandas as pd
 
 此程式用於抓取X網站統計資料，能夠自動從各大統計網站抓取所需的數據，並進行初步分析和整理。
 
-## Python_StockAnalysis
+## Python_OpenCV
 
-此程式用於股票資料分析，能夠抓取股票歷史資料，進行技術分析和基本面分析，並生成相關報告和圖表。
+此程式用於影像處理和電腦視覺，利用OpenCV庫進行圖像的讀取、處理和分析。支援多種影像處理技術如邊緣檢測、物體識別和圖像分割。
 
-詳情參照該專案的 README.md
+### 套件
 
+``` python
+import cv2
+```
+
+此為OpenCV的預訓練模型檔案，用於人臉偵測：
+
+``` text
+haarcascade_frontalface_default.xml
+```
+
+- cv2: OpenCV庫，用於影像處理和電腦視覺
+- imread: 用於讀取影像檔案
+- imshow: 用於顯示影像
+- cvtColor: 用於色彩空間轉換
+- GaussianBlur: 用於高斯模糊
